@@ -1,0 +1,2 @@
+user: local_admin
+group: "{{user}}"

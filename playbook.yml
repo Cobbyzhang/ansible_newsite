@@ -1,9 +1,18 @@
 ---
-- hosts: AliYun
-  become_user: zhangyunchong
-  vars:
-    new_name: 'b.txt'
+- name: init servers
+  hosts: all
+  roles:
+    - role: adduser
+      vars:
+        state: present
+  tags: 
+    - init_servers
 
-  tasks:
-    - name: rename a.txt
-      shell: mv ~/a.txt ~/{{new_name}}
+- name: reset servers
+  hosts: all
+  roles:
+    - role: adduser
+      vars:
+        state: absent
+  tags: 
+    - reset_servers

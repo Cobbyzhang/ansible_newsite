@@ -9,6 +9,10 @@
 
 ## apt
 ### 配置源
+1. Debian 9
+2. Debian 10
+3. Ubuntu 16
+4. Ubuntu 18
 
 ### 安装必要的软件
 1. mysql
