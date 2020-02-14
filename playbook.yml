@@ -1,0 +1,9 @@
+---
+- hosts: AliYun
+  become_user: zhangyunchong
+  vars:
+    new_name: 'b.txt'
+
+  tasks:
+    - name: rename a.txt
+      shell: mv ~/a.txt ~/{{new_name}}

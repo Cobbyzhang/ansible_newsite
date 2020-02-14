@@ -1,0 +1,5 @@
+user: web_admin
+group: "{{user}}"
+proj_name: my_site
+proj_home: "/home/project/{{proj_name}}"
+
