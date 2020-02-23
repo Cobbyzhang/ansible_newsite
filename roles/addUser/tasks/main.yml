@@ -3,7 +3,7 @@
   group:
     name: "{{group}}"
     state: present
-  when: state == "present"
+  when: action == "install"
 
 - name: User | Create User
   user:
@@ -13,46 +13,32 @@
     groups: "{{group}}"
     home: "/home/{{user}}"
     shell: /bin/bash
-  when: state == "present"
+  when: action == "install"
 
 - name: User | Remove User
   user:
     name: "{{user}}"
     state: absent
     remove: yes
-  when: state == "absent"
+  when: my_action == "uninstall"
 
 - name: User | Remove Group
   group:
     name: "{{group}}"
     state: absent
-  when: state == "absent"
-
-# - name: User | Add sudoers.d
-#   template:
-#     src: sudoers
-#     dest: "/etc/sudoers.d/{{user}}"
-#     owner: root
-#     group: root
-#     mode: 0440
-#   when: state == 'present'
-
-# - name: User | Remove sudoers.d
-#   file:
-#     path: "/etc/sudoers.d/{{user}}"
-#     state: absent
-#   when: state == 'absent'
+  when: my_action == "uninstall"
 
 - name: User | Add sudoers
   vars:
     content: "'{{user}} localhost = (root) NOPASSWD: /usr/bin/sh'"
     file_name: "/etc/sudoers"
   shell: "grep -qxF {{content}} {{file_name}} || echo {{content}} >> {{file_name}}"
-  when: state == "present"
+  when: my_action == "install"
 
 - name: User | Remove sudoers
   lineinfile: 
     path: /etc/sudoers
     regexp: "^{{user}}"
     state: absent
-  when: state == "absent"
+  when: my_action == "uninstall"
+

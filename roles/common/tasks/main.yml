@@ -1,0 +1,67 @@
+---
+# 暂时不考虑非debian和Ubuntu系统
+# loop中的数据应当单独做一个vars的部分来控制
+- name: install required system packages
+  apt: 
+    name: "{{item}}"
+    state: present
+    update_cache: yes
+  when: my_action == "install"
+  loop:
+    - curl
+    - nginx
+    - git
+    - virtualenv
+    - python-dev
+    - python-pip
+    - python3-dev
+    - python3-pip
+    - libssl-dev
+    - libcurl4-openssl-dev
+
+- name: Install python packages
+  pip:
+    name: "{{ item }}"
+    state: present
+  when: my_action == "install"
+  loop:
+    - Flask
+    - requests
+    - Flask-SQLAlchemy==2.2
+    - PyYAML==3.13
+    - PyMySQL==0.9.3
+    - uwsgi==2.0.18
+    - gevent==1.4.0
+    - alembic==0.9.5
+
+- name: remove python packages
+  pip:
+    name: "{{ item }}"
+    state: absent
+  when: my_action == "uninstall"
+  loop:
+    - Flask
+    - requests
+    - Flask-SQLAlchemy==2.2
+    - PyYAML==3.13
+    - PyMySQL==0.9.3
+    - uwsgi==2.0.18
+    - gevent==1.4.0
+    - alembic==0.9.5
+
+- name: uninstall all packages
+  apt:
+    name: "{{item}}"
+    state: absent
+  when: my_action == "uninstall"
+  loop:
+    - curl
+    - nginx
+    - git
+    - virtualenv
+
+- name: autoclean
+  apt:
+    autoclean: yes
+    autoremove: yes
+  when: my_action == "uninstall"

@@ -3,8 +3,9 @@
   hosts: all
   roles:
     - role: adduser
-      vars:
-        state: present
+    - role: common
+  vars:
+    my_action: install
   tags: 
     - init_servers
 
@@ -12,7 +13,8 @@
   hosts: all
   roles:
     - role: adduser
-      vars:
-        state: absent
+    - role: common
+  vars:
+    my_action: uninstall
   tags: 
     - reset_servers
